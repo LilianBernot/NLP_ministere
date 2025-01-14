@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import json
 import os
+import re
 
 def read_html_with_beautiful_soup(file_path):
     """Read an html document with beautiful soup"""
@@ -30,9 +31,14 @@ def read_html_with_beautiful_soup(file_path):
 def store_htmls(htmls_to_store, store_path='target_divs.json'): 
     """Store given htmls in a json document"""
 
-    # Get divs contents
-    # We delete multiple spaces and special characters like \n
-    div_contents = [' '.join(div.get_text(strip=True).strip().split()) for div in htmls_to_store]
+    def clean_text(text):
+        parsed_text = ' '.join(text.get_text().strip().split()) # Remove multiple spaces
+        fixed_text = re.sub(r"'\s+", "'", parsed_text)  # Remove space after apostrophe
+        fixed_text = re.sub(r"\s+,", ",", fixed_text)  # Remove space before comma
+        
+        return fixed_text
+
+    div_contents = [clean_text(div) for div in htmls_to_store]
 
     # Write the contents to a json file
     with open(store_path, 'w', encoding='utf-8') as file:
