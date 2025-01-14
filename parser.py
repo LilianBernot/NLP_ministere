@@ -10,7 +10,8 @@ def read_html_with_beautiful_soup(file_path):
     # Find all articles in the HTML
     articles = soup.find_all('a')
     
-    clean_articles = []
+    # When we have lists of articles in the same div, we want to study them only once
+    clean_articles = set()
 
     for article in articles:
         # Find the parent of the article
@@ -22,7 +23,7 @@ def read_html_with_beautiful_soup(file_path):
         full_text:str = parent.get_text(strip=True)  # Strips leading and trailing spaces
         first_two_letters = full_text[:2].lower()
         if first_two_letters != "vu":
-            clean_articles.append(parent)
+            clean_articles.add(parent)
 
     return clean_articles
 
@@ -51,7 +52,7 @@ def read_multiple_html():
         cur_path = path + "/" + dir + "/" 
         for file_name in file_names:
             if file_name[-5:] == ".html":
-                htmls_to_store += read_html_with_beautiful_soup(cur_path + file_name)
+                htmls_to_store += list(read_html_with_beautiful_soup(cur_path + file_name))
 
 
     store_htmls(htmls_to_store)
