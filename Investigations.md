@@ -33,5 +33,5 @@ In both cases, chapitre name is "ABROGATION DE DISPOSITIONS ANTERIEURES".
 
 
 TODO : 
-- extract all cited articles with code 
-- create syntax to delete some like "VU"
+- extract all mentioned articles with code 
+- create syntax to delete some like "VU" : 1525 -> 944 mentions

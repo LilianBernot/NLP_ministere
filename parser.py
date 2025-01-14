@@ -19,9 +19,9 @@ def read_html_with_beautiful_soup(file_path):
             parent = parent.parent
         
         # Delete divs with "VU"
-        full_text = parent.get_text(strip=True)  # Strips leading and trailing spaces
-        first_two_letters = full_text[:2]
-        if first_two_letters != "VU":
+        full_text:str = parent.get_text(strip=True)  # Strips leading and trailing spaces
+        first_two_letters = full_text[:2].lower()
+        if first_two_letters != "vu":
             clean_articles.append(parent)
 
     return clean_articles
