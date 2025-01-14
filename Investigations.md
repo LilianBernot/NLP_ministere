@@ -25,7 +25,11 @@ In both cases, chapitre name is "ABROGATION DE DISPOSITIONS ANTERIEURES".
 TODO : 
 - extract all mentioned articles with code 
 - create syntax to delete some like "VU" : 1525 -> 944 mentions
-
+- better parsing and storing : 
+    - store by arrêté
+    - store by article inside the arrêté
+    - clean the texts : space before and after dates
+- category detection : implement that
 
 
 # Catégories potentielles
