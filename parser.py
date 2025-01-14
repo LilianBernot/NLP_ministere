@@ -28,7 +28,7 @@ def read_html_with_beautiful_soup(file_path):
 
     return clean_articles
 
-def store_htmls(htmls_to_store, store_path='target_divs.json'): 
+def store_htmls(htmls_to_store:dict[str, list], store_path='target_divs.json'): 
     """Store given htmls in a json document"""
 
     def clean_text(text):
@@ -38,7 +38,9 @@ def store_htmls(htmls_to_store, store_path='target_divs.json'):
         
         return fixed_text
 
-    div_contents = [clean_text(div) for div in htmls_to_store]
+    div_contents = {}
+    for file_name, htmls in htmls_to_store.items():
+        div_contents[file_name] = [clean_text(div) for div in htmls]
 
     # Write the contents to a json file
     with open(store_path, 'w', encoding='utf-8') as file:
@@ -51,15 +53,14 @@ def read_multiple_html():
     path = "./data"
     dirs = os.listdir( path )
 
-    htmls_to_store = []
+    htmls_to_store:dict[str, list] = dict()
 
     for dir in dirs:
         file_names = os.listdir( path + "/" + dir )
         cur_path = path + "/" + dir + "/" 
         for file_name in file_names:
             if file_name[-5:] == ".html":
-                htmls_to_store += list(read_html_with_beautiful_soup(cur_path + file_name))
-
+                htmls_to_store[file_name] = list(read_html_with_beautiful_soup(cur_path + file_name))
 
     store_htmls(htmls_to_store)
 
