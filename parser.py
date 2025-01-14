@@ -1,50 +1,61 @@
 from bs4 import BeautifulSoup
+from bs4.element import ResultSet
+from bs4.element import Tag
 import json
 import os
 import re
 
-def read_html_with_beautiful_soup(file_path):
+
+def clean_text(text : Tag) -> str:
+    """Cleans the text of a beautiful soup object.
+
+    Arguments :
+        text : a BeautifulSoup object
+
+    Returns : cleand text
+    """
+    parsed_text = ' '.join(text.get_text().strip().split()) # Remove multiple spaces
+    fixed_text = re.sub(r"'\s+", "'", parsed_text)  # Remove space after apostrophe
+    fixed_text = re.sub(r"\s+,", ",", fixed_text)  # Remove space before comma
+    
+    return fixed_text
+
+
+def read_html_with_beautiful_soup(file_path:str) -> dict:
     """Read an html document with beautiful soup"""
     with open(file_path, 'r') as f:
         soup = BeautifulSoup(f, 'html.parser')
 
     # Find all articles in the HTML
-    articles = soup.find_all('a')
+    articles: ResultSet[Tag] = soup.find_all('a')
     
     # When we have lists of articles in the same div, we want to study them only once
-    clean_articles = set()
+    clean_articles = dict()
 
     for article in articles:
+        article_name = clean_text(article)
+
         # Find the parent of the article
         parent = article.parent
-        if parent.name == 'ul':
-            parent = parent.parent
-        
-        # Delete divs with "VU"
-        full_text:str = parent.get_text(strip=True)  # Strips leading and trailing spaces
-        first_two_letters = full_text[:2].lower()
-        if first_two_letters != "vu":
-            clean_articles.add(parent)
+        if parent:
+            if parent.name == 'ul' and parent.parent:
+                parent = parent.parent
+    
+            # Delete divs with "VU"
+            full_text = clean_text(parent)
+            
+            first_two_letters = full_text[:2].lower()
+            if first_two_letters != "vu":
+                clean_articles[article_name] = full_text
+                #/!\ WARNING : now, articles are duplicated because they have different keys
 
     return clean_articles
 
-def store_htmls(htmls_to_store:dict[str, list], store_path='target_divs.json'): 
+def store_htmls(htmls_to_store:dict[str, dict], store_path='target_divs_by_target.json'): 
     """Store given htmls in a json document"""
 
-    def clean_text(text):
-        parsed_text = ' '.join(text.get_text().strip().split()) # Remove multiple spaces
-        fixed_text = re.sub(r"'\s+", "'", parsed_text)  # Remove space after apostrophe
-        fixed_text = re.sub(r"\s+,", ",", fixed_text)  # Remove space before comma
-        
-        return fixed_text
-
-    div_contents = {}
-    for file_name, htmls in htmls_to_store.items():
-        div_contents[file_name] = [clean_text(div) for div in htmls]
-
-    # Write the contents to a json file
     with open(store_path, 'w', encoding='utf-8') as file:
-        json.dump(div_contents, file, ensure_ascii=False, indent=4)
+        json.dump(htmls_to_store, file, ensure_ascii=False, indent=4)
 
 
 def read_multiple_html():
@@ -53,14 +64,14 @@ def read_multiple_html():
     path = "./data"
     dirs = os.listdir( path )
 
-    htmls_to_store:dict[str, list] = dict()
+    htmls_to_store:dict[str, dict] = dict()
 
     for dir in dirs:
         file_names = os.listdir( path + "/" + dir )
         cur_path = path + "/" + dir + "/" 
         for file_name in file_names:
             if file_name[-5:] == ".html":
-                htmls_to_store[file_name] = list(read_html_with_beautiful_soup(cur_path + file_name))
+                htmls_to_store[file_name] = read_html_with_beautiful_soup(cur_path + file_name)
 
     store_htmls(htmls_to_store)
 
