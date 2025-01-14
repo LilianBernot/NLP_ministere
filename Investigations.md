@@ -18,17 +18,19 @@ When applicable, got :
 Substitutions : 
 - data/0005205103/2023-10-16_AP-auto_modificatif_pixtral.html
 - data/0005205103/2016-03-02_APC-auto_pixtral.html
+- data/0005302750/2022-11-07_APC-auto_pixtral.html
 
 In both cases, chapitre name is "ABROGATION DE DISPOSITIONS ANTERIEURES".
 
 
 TODO : 
-- extract all mentioned articles with code 
-- create syntax to delete some like "VU" : 1525 -> 944 mentions
+- [x] extract all mentioned articles with code 
+- [x] create syntax to delete some like "VU" : 1525 -> 944 mentions
 - better parsing and storing : 
-    - store by arrêté
-    - store by article inside the arrêté
-    - clean the texts : space before and after dates
+    - [x] store by arrêté 
+    - [x]clean the texts : space before and after dates
+    - [] store by article inside the arrêté : hard. Should investigate more on the structure of the html files.
+    - [] store mentions by the mentionned article. Structure should be like ```mentioning_article : { mentioned_article : text, ...}```
 - category detection : implement that
 
 
@@ -45,6 +47,7 @@ Vocabulary :
 - visés par ...
 - définies conformément à ...
 - respectent les prescriptions de
+- complété
 
 ## Recherches personnelles
 Modification partielle d’un article :
