@@ -29,9 +29,15 @@ TODO :
 - better parsing and storing : 
     - [x] store by arrêté 
     - [x]clean the texts : space before and after dates
+    - [x] store mentions by the mentionned article. Structure should be like 
     - [] store by article inside the arrêté : hard. Should investigate more on the structure of the html files.
-    - [] store mentions by the mentionned article. Structure should be like ```mentioning_article : { mentioned_article : text, ...}```
-- category detection : implement that
+    - [] storage : for the listed stuff, maybe group them under a same big "multiple mentions". Or, don't take all elements within the mention but only the parent + the current article. I prefer first solution
+- [] category detection : implement that
+- documentation : 
+    - [x] add PDFs to the repo to explain subjects
+    - [] write in readme : "For now, htmls are parsed in the following format : ```mentioning_article : { mentioned_article : text, ...}``` ..."
+    - [] add in the readme : project in french because... -> still part to translate
+    - [x] add in the readme : differentiate folders between project 1 and project 2
 
 
 # Catégories potentielles
