@@ -51,14 +51,14 @@ def read_html_with_beautiful_soup(file_path:str) -> dict:
 
     return clean_articles
 
-def store_htmls(htmls_to_store:dict[str, dict], store_path='target_divs_by_target.json'): 
+def store_htmls(htmls_to_store:dict[str, dict], store_path:str): 
     """Store given htmls in a json document"""
 
     with open(store_path, 'w', encoding='utf-8') as file:
         json.dump(htmls_to_store, file, ensure_ascii=False, indent=4)
 
 
-def read_multiple_html():
+def read_multiple_html(store_path: str):
     """Read all html documents"""
     
     path = "./data"
@@ -73,6 +73,6 @@ def read_multiple_html():
             if file_name[-5:] == ".html":
                 htmls_to_store[file_name] = read_html_with_beautiful_soup(cur_path + file_name)
 
-    store_htmls(htmls_to_store)
+    store_htmls(htmls_to_store, store_path=store_path)
 
-read_multiple_html()
+read_multiple_html(store_path='target_divs.json')

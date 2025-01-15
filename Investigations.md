@@ -38,6 +38,7 @@ TODO :
     - [] write in readme : "For now, htmls are parsed in the following format : ```mentioning_article : { mentioned_article : text, ...}``` ..."
     - [] add in the readme : project in french because... -> still part to translate
     - [x] add in the readme : differentiate folders between project 1 and project 2
+    - [] create readme for each folder
 
 
 # Catégories potentielles
