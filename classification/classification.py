@@ -62,6 +62,6 @@ def classify_parsing_output(parsing_output_path: str, store_path:str):
     store_classifications(classifications_to_store, store_path=store_path)
 
 classify_parsing_output(
-    parsing_output_path="../parsing/target_divs_by_target.json",
+    parsing_output_path="../parsing/parsing.json",
     store_path="./classification.json"
 )
