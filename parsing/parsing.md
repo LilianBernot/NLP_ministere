@@ -13,11 +13,22 @@ The output file will be ```target_divs.json``` by default.
 The code first retrieves all the html elements in the ```<a>``` tags.
 For each of those elements, we retrieve the parent element, to get the context around the mention.
 
-The output of the code is a json file that will store data as a dictionary. The keys of the dictionary are the names of the html files that are being parsed. The corresponding values are dictionaries that have, as keys, the mentioned articles names, and as values, the context of the mention.
+The output of the code is a json file that will store data as a dictionary. The keys of the dictionary are the names of the html files that are being parsed. The corresponding values are dictionaries that have, as keys, the mentioned articles names, and as values, the context of the mention : 
+```
+{
+    mentioning_article : { 
+        mentioned_article : text, 
+        ...
+        },
+    ...
+}
+```
 
-Here, we have two different json files : 
-- target_divs : just has every mention context for each html file
-- target_divs_by_target : a better form of output, with contexts sorted by mentioned articles names.
+## Potential improvement
+
+We could store by article inside the arrêté instead of the arrêté itself. 
+
+For now, we store the mentions by the file name (meaning the arrêté name), not the specified article inside the file. Let's imagine a file, named arrete_x. There, I have an article a.b that is referring to another article c.d. In my storage, I will have : ```"arrete_x": "context with article a.b inside"```. I might prefer having : ```"article a.b": "context with article c.d inside"```.
 
 ## Implementation choice
 

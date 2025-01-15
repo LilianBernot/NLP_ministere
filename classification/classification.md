@@ -11,6 +11,20 @@ Il contient les fichiers suivants :
 
 La classification est faite en analysant si un texte contient ou non un mot de vocabulaire que l'on a défini comme classifiant. Exemple : si l'on voit le mot "conformément" dans un texte, on considère que l'article mentionné fait objet d'une simple mention. On n'est pas en train de l'amander ou de l'abroger mais simplement de le citer ou de montrer qu'on en applique un principe.
 
+Le fichier créé par le classificateur prend à peu près la forme de celui du parsing, à ceci près que l'on ajoute pour chaque article mentionné, l'action classifiée au texte : 
+```
+{
+    mentioning_article : { 
+        mentioned_article : {
+            "mention": text, 
+            "action": detected action,
+        }
+        ...
+        },
+    ...
+}
+```
+
 ## Limites et évolutions du projet
 
 On verra dans la partie d'analyses que les résultats sont relativement mauvais. On notera notamment le taux de 84% de mentions du corpus dont l'action n'est pas qualifiée. 
@@ -25,6 +39,24 @@ You can analyse the results with : ```python classification_analysis.py```. It w
 
 
 # Analyses de résultats
+
+## Résultats d'occurence
+
+Voici les résultats d'occurence des différentes actions après classification : 
+
+```
+{
+   'Abrogation': 9,
+   'Indéfini': 545,
+   'Modification partielle': 17,
+   'Simple mention': 74,
+   'Substitution totale': 4,
+   'Proportion actions indéfinies': 0.8397534668721109,
+   'Total': 649
+}
+```
+
+On notera ici la grande propotion d'actions indéfinies par notre système.
 
 ## Quelques réussites
 
